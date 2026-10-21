@@ -2,8 +2,8 @@ name: Pipeline sismos
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "*/10 * * * *"
+  schedule:
+    - cron: "3-59/10 * * * *"
 
 concurrency:
   group: pipeline-sismos
