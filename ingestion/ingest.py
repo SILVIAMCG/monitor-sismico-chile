@@ -22,18 +22,38 @@ where raw.earthquakes.updated_utc < excluded.updated_utc;
 """
 
 
-def fetch_events(hours: int) -> list[dict]:
-    start = datetime.now(timezone.utc) - timedelta(hours=hours)
+#Version para las ultimas horas sin considerar historico
+
+# def fetch_events(hours: int) -> list[dict]:
+#     start = datetime.now(timezone.utc) - timedelta(hours=hours)
+#     params = {
+#         "format": "geojson",
+#         "starttime": start.strftime("%Y-%m-%dT%H:%M:%S"),
+#         "orderby": "time",
+#         **ZONA,
+#     }
+#     r = requests.get(USGS_URL, params=params, timeout=30)
+#     r.raise_for_status()
+#     return r.json()["features"]
+
+def fetch_range(start: datetime, end: datetime | None = None) -> list[dict]:
     params = {
         "format": "geojson",
         "starttime": start.strftime("%Y-%m-%dT%H:%M:%S"),
         "orderby": "time",
         **ZONA,
     }
+    if end is not None:
+        params["endtime"] = end.strftime("%Y-%m-%dT%H:%M:%S")
+
     r = requests.get(USGS_URL, params=params, timeout=30)
     r.raise_for_status()
     return r.json()["features"]
 
+
+def fetch_events(hours: int) -> list[dict]:
+    start = datetime.now(timezone.utc) - timedelta(hours=hours)
+    return fetch_range(start)
 
 def load_events(features: list[dict]) -> None:
     rows = [
