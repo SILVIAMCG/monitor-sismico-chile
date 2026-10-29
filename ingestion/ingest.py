@@ -69,19 +69,40 @@ def load_events(features: list[dict]) -> None:
             cur.executemany(UPSERT_SQL, rows)
         conn.commit()
 
+def log_run(started_at, hours, events, status, error=None):
+    with get_connection() as conn:
+        conn.execute(
+            """
+            insert into raw.pipeline_runs
+                (started_at, finished_at, window_hours, events, status, error)
+            values (%s, now(), %s, %s, %s, %s)
+            """,
+            (started_at, hours, events, status, error),
+        )
+        conn.commit()
+
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--hours", type=int, default=2, help="ventana hacia atrás en horas")
     args = parser.parse_args()
 
-    log.info("Descargando sismos de las últimas %s horas", args.hours)
-    features = fetch_events(args.hours)
-    log.info("Recibidos %s eventos", len(features))
-
-    if features:
-        load_events(features)
-        log.info("Carga completada")
+    started_at = datetime.now(timezone.utc)
+    try:
+        log.info("Descargando sismos de las últimas %s horas", args.hours)
+        features = fetch_events(args.hours)
+        log.info("Recibidos %s eventos", len(features))
+        if features:
+            load_events(features)
+        log_run(started_at, args.hours, len(features), "success")
+        log.info("Ejecución registrada")
+    except Exception as e:
+        log.error("Falló la ejecución: %s", e)
+        try:
+            log_run(started_at, args.hours, 0, "failed", str(e))
+        except Exception:
+            log.error("Tampoco se pudo registrar el fallo en la base")
+        raise
 
 
 if __name__ == "__main__":
