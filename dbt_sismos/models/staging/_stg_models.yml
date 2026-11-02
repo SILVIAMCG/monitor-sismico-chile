@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_earthquakes
+    description: "Sismos con columnas limpias y tipadas. Una fila por evento."
+    columns:
+      - name: event_id
+        description: "Identificador único del USGS."
+        data_tests:
+          - unique
+          - not_null
+      - name: event_time_utc
+        description: "Fecha y hora en que ocurrió el sismo (UTC)."
+        data_tests:
+          - not_null
+      - name: latitude
+        data_tests:
+          - not_null
+      - name: longitude
+        data_tests:
+          - not_null
+      - name: geom
+        description: "Punto del epicentro en SRID 4326."
+        data_tests:
+          - not_null

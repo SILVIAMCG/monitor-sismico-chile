@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Datos tal como llegan desde los scripts de ingesta de Python."
+    schema: raw
+    tables:
+
+      - name: earthquakes
+        description: "Un registro por sismo, con el GeoJSON completo del USGS."
+        columns:
+          - name: event_id
+            description: "Identificador único del USGS."
+            data_tests:
+              - unique
+              - not_null
+          - name: payload
+            description: "Evento completo en formato GeoJSON (jsonb)."
+            data_tests:
+              - not_null
+          - name: updated_utc
+            description: "Última vez que el USGS modificó el registro. No es la fecha del sismo."
+          - name: ingested_at
+            description: "Cuándo el pipeline cargó o actualizó el registro."
+
+      - name: regiones
+        description: "Polígonos simplificados de las 16 regiones de Chile."
+        columns:
+          - name: region_id
+            description: "Código HASC de la región, por ejemplo CL.AT."
+            data_tests:
+              - unique
+              - not_null
+          - name: geom
+            description: "MultiPolygon en SRID 4326."
+            data_tests:
+              - not_null
+
+      - name: pipeline_runs
+        description: "Una fila por cada ejecución de ingest.py."
+        loaded_at_field: finished_at
+        freshness:
+          warn_after: {count: 1, period: hour}
+          error_after: {count: 6, period: hour}
