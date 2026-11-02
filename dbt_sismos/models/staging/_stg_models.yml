@@ -13,12 +13,42 @@ models:
         description: "Fecha y hora en que ocurrió el sismo (UTC)."
         data_tests:
           - not_null
+      - name: magnitude
+        description: "Magnitud del sismo."
+        data_tests:
+          - en_rango:
+              arguments:
+                min_value: -1
+                max_value: 10
+      - name: depth_km
+        description: "Profundidad del hipocentro en km."
+        data_tests:
+          - en_rango:
+              arguments:
+                min_value: -5
+                max_value: 700
       - name: latitude
         data_tests:
           - not_null
+          - en_rango:
+              arguments:
+                min_value: -56
+                max_value: -17
       - name: longitude
         data_tests:
           - not_null
+          - en_rango:
+              arguments:
+                min_value: -80
+                max_value: -66
+      - name: event_type
+        description: "Tipo de evento según el USGS."
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['earthquake']
+              config:
+                severity: warn
       - name: geom
         description: "Punto del epicentro en SRID 4326."
         data_tests:

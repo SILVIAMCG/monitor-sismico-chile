@@ -22,3 +22,30 @@ models:
               arguments:
                 to: ref('stg_regiones')
                 field: region_id
+
+  - name: mart_actividad_diaria
+    description: "Un día por fila desde 2010, con conteos de sismos (0 en días sin actividad)."
+    columns:
+      - name: fecha
+        data_tests:
+          - unique
+          - not_null
+      - name: sismos
+        data_tests:
+          - not_null
+
+  - name: mart_resumen_regional
+    description: "Una fila por región con totales históricos y recientes."
+    columns:
+      - name: region_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: mart_sismos_recientes
+    description: "Sismos de los últimos 30 días con nombre de región."
+    columns:
+      - name: event_id
+        data_tests:
+          - unique
+          - not_null

@@ -116,6 +116,9 @@ monitor-sismico-chile/
 
 **Seguridad.** Data API de Supabase desactivada, Row Level Security en todas las tablas, credenciales en `.env` local y en GitHub Secrets (nunca en el repositorio).
 
+**Distribucion**
+Los sismos ocurridos en Argentina se conservan en la tabla de hechos y se muestran en el mapa, pero se excluyen de las estadísticas para que se refieran solo a Chile.
+
 ---
 
 ## Hallazgos sobre los datos
