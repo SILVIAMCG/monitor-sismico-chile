@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: fct_sismos
+    description: "Un sismo por fila, con su región y ubicación asignadas."
+    columns:
+      - name: event_id
+        data_tests:
+          - unique
+          - not_null
+      - name: ubicacion
+        description: "tierra, mar o argentina."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['tierra', 'mar', 'argentina']
+      - name: region_id
+        description: "Región asignada. Vacía para sismos en Argentina."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_regiones')
+                field: region_id

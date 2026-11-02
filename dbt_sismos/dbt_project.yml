@@ -38,4 +38,8 @@ models:
     marts:
       +schema: marts
       +materialized: table
+
+seeds:
+  dbt_sismos:
+    +schema: seeds
     

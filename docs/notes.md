@@ -28,3 +28,6 @@ Archivo geojson convertido desde el .js de maxfindel; se eliminó un comentario 
 
 # Limitaciones de precisión
 El área calculada para la RM es de 17.051 km², frente a unos 15.400 km² oficiales (+10%). La diferencia se debe a la simplificación del archivo (coordenadas con 2 decimales). Los polígonos son adecuados para asignar sismos a regiones, pero no para cálculos de superficie. Mejora futura: migrar a la capa DPA oficial de IDE Chile.
+
+# correciones
+El código HASC de Arica y Parinacota venía incompleto (CL.) en el archivo de origen. Se corrige en cargar_regiones.py con un diccionario explícito; el script falla si encuentra otra región sin código válido.

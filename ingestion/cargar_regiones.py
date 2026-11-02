@@ -9,6 +9,11 @@ log = logging.getLogger("regiones")
 
 RUTA = Path(__file__).resolve().parent.parent / "data" / "regiones_chile.geojson"
 
+# Regiones cuyo código HASC viene incompleto en el archivo original.
+CORRECCIONES_ID = {
+    "Arica y Parinacota": "CL.AP",
+}
+
 UPSERT_SQL = """
 insert into raw.regiones (region_id, codigo, nombre, geom)
 values (
@@ -32,8 +37,15 @@ def main():
     rows = []
     for feature in regiones["features"]:
         p = feature["properties"]
+
+        region_id = p["hasc"]
+        if not region_id or region_id.endswith("."):
+            region_id = CORRECCIONES_ID.get(p["name"])
+            if region_id is None:
+                raise ValueError(f"Región sin código válido: {p['name']}")
+
         rows.append((
-            p["hasc"],
+            region_id,
             p["hc-a2"],
             p["name"],
             json.dumps(feature["geometry"]),

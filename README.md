@@ -207,3 +207,6 @@ DB_PASSWORD=
 © Colaboradores de OpenStreetMap, disponible bajo la [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/).
 Los polígonos están simplificados (precisión aproximada de 1 km) y se usan solo para asignar cada sismo a su región.
 
+- **Verificación**
+Las magnitudes máximas por región coinciden con terremotos documentados (Illapel 2015, Pichilemu 2010, Constitución 2012, Valparaíso 2017), lo que valida la carga histórica y la asignación espacial.
+
