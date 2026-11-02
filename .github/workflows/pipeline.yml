@@ -10,9 +10,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  ingest:
+  pipeline:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
+
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     steps:
       - name: Descargar el código
@@ -28,10 +35,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Ejecutar ingesta
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: python ingestion/ingest.py
+        run: python ingestion/ingest.py --hours 6
+
+      - name: Transformar con dbt
+        working-directory: dbt_sismos
+        run: dbt build
