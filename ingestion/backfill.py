@@ -5,6 +5,9 @@ from datetime import date, datetime, timezone
 
 from ingest import fetch_range, load_events
 
+#Script para eventos históricos, se obtienen los datos desde 2010, con frecuencia
+#mensual
+
 log = logging.getLogger("backfill")
 
 

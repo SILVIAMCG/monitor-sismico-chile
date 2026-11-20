@@ -6,4 +6,5 @@ __pycache__/
 .ipynb_checkpoints/
 dbt/target/
 dbt/logs/
+.streamlit/secrets.toml
 

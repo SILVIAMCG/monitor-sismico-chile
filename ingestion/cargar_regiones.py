@@ -4,6 +4,9 @@ from pathlib import Path
 
 from db import get_connection
 
+#Script para cargar regiones desde un archivo geojson, se espera que el archivo contenga 16 regiones, 
+# con sus códigos HASC y geometría en WGS84.
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("regiones")
 

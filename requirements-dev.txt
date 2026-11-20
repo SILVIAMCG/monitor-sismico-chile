@@ -1,3 +1,3 @@
 -r requirements.txt
+-r dashboard/requirements.txt
 ipykernel==7.4.0
-pandas==3.0.6
