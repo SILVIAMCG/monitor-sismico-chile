@@ -3,7 +3,7 @@ name: Pipeline sismos
 on:
   workflow_dispatch:
   schedule:
-    - cron: "3-59/10 * * * *"
+    - cron: "17 */3 * * *"
 
 concurrency:
   group: pipeline-sismos
@@ -35,7 +35,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Ejecutar ingesta
-        run: python ingestion/ingest.py --hours 6
+        run: python ingestion/ingest.py --hours 12
 
       - name: Transformar con dbt
         working-directory: dbt_sismos

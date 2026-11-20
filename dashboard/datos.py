@@ -1,6 +1,6 @@
 import streamlit as st
 
-TTL = 600  # segundos; coincide con la frecuencia del pipeline
+TTL = 1800  # segundos; coincide con la frecuencia del pipeline
 
 
 def conexion():

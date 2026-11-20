@@ -98,9 +98,9 @@ monitor-sismico-chile/
 
 **Upsert idempotente.** Los sismos se revisan después de publicados (cambian magnitud y ubicación). La carga usa `INSERT ... ON CONFLICT (event_id) DO UPDATE` y solo actualiza si el campo `updated` es más reciente. Ejecutar el pipeline varias veces sobre el mismo período no genera duplicados.
 
-**Ventana de consulta mayor que el intervalo del cron.** El cron corre cada 10 minutos, pero cada ejecución consulta varias horas hacia atrás. Esto tolera las ejecuciones atrasadas u omitidas por GitHub Actions; el upsert absorbe el solapamiento.
+**Ventana de consulta mayor que el intervalo del cron.** El cron corre cada 3 horas, pero cada ejecución consulta varias horas hacia atrás. Esto tolera las ejecuciones atrasadas u omitidas por GitHub Actions; el upsert absorbe el solapamiento.
 
-**Cron desplazado del minuto cero.** Se usa `3-59/10 * * * *` en vez de `*/10` para evitar los minutos de mayor carga en GitHub Actions.
+**Cron desplazado del minuto cero.** Se usa `17 */3 * * *` para evitar los minutos de mayor carga en GitHub Actions.
 
 **Registro de cada ejecución.** `pipeline_runs` guarda cada corrida, haya sismos o no. Sirve para monitorear el pipeline y mantiene activa la base de datos del plan gratuito.
 
@@ -136,6 +136,8 @@ Los sismos ocurridos en Argentina se conservan en la tabla de hechos y se muestr
 **Cambio de sistema operativo en GitHub Actions.** El pipeline falló cuando `ubuntu-latest` pasó a Ubuntu 26.04, donde no había una versión preparada de Python 3.13.0. Se fijó el runner en `ubuntu-24.04` y se usó la serie `3.13`.
 
 **Base de datos pausada por inactividad.** Supabase pausó el proyecto aunque el cron corría. La causa: el script solo se conectaba a la base cuando había sismos nuevos, y en la zona central la mayoría de las ejecuciones no recibe ninguno. Se resolvió registrando cada ejecución en `pipeline_runs`.
+
+**Bloqueo de facturación en GitHub Actions.** Actions dejó de ejecutar el workflow por un error de facturación que clasificaba como cobrable el uso de un repositorio público. Se resolvió con el soporte de GitHub. Durante el bloqueo, la ingesta se ejecutó manualmente para mantener la continuidad de los datos y evitar la pausa de Supabase.
 
 ---
 
