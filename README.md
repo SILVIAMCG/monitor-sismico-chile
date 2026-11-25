@@ -2,10 +2,6 @@
 
 Pipeline de datos que captura automáticamente los sismos de la zona central de Chile desde la API del USGS, los almacena en PostgreSQL con historial desde 2010 y los transforma para alimentar un dashboard en tiempo casi real.
 
-> **En construcción** — Fases 0 a 4 completadas. En curso: Fase 5 (transformación con dbt).
-
----
-
 ## ¿Qué hace?
 
 - Consulta la API del USGS cada 10 minutos y carga los sismos nuevos o revisados.
@@ -163,30 +159,8 @@ python cargar_regiones.py            # polígonos regionales
 python backfill.py                   # histórico desde 2010
 python ingest.py                     # ingesta incremental (últimas 2 horas)
 python ingest.py --hours 48          # ventana personalizada
-```
 
-### Variables de entorno
 
-```
-DB_HOST=       # host del Session pooler de Supabase
-DB_PORT=5432
-DB_NAME=postgres
-DB_USER=       # postgres.<id-del-proyecto>
-DB_PASSWORD=
-```
-
----
-
-## Avance
-
-- [x] Fase 0 — Preparación del entorno
-- [x] Fase 1 — Exploración de la API
-- [x] Fase 2 — Ingesta con upsert idempotente
-- [x] Fase 3 — Carga histórica y polígonos regionales
-- [x] Fase 4 — Automatización con GitHub Actions
-- [ ] Fase 5 — Transformación con dbt *(en curso)*
-- [ ] Fase 6 — Dashboard en Streamlit
-- [ ] Fase 7 — Tests, monitoreo y documentación final
 
 ### Mejoras futuras
 
