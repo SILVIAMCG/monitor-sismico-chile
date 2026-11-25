@@ -30,8 +30,8 @@ with st.container(border=True):
     st.bar_chart(mensual, x="mes", y=columna, x_label="", y_label="Sismos por mes")
 
     st.caption(
-        "Los picos corresponden a las réplicas del terremoto del 27F (2010) "
-        "y del terremoto de Illapel (2015)."
+        "Los picos corresponden principalmente al terremoto del Maule (27F, 2010), "
+        "Iquique (2014) e Illapel (2015) y sus réplicas."
     )
 
 # --- Ranking regional ---
@@ -71,7 +71,7 @@ grafico_regiones = (
             alt.Tooltip("sismos:Q", title="Sismos"),
         ],
     )
-    .properties(height=320)
+    .properties(height=480)
 )
 
 with st.container(border=True):
@@ -136,7 +136,7 @@ grafico_regiones = (
             alt.Tooltip("sismos:Q", title="Sismos"),
         ],
     )
-    .properties(height=320)
+    .properties(height=480)
 )
 
 with st.container(border=True):
@@ -160,8 +160,8 @@ with st.container(border=True):
         )
 
     st.caption(
-        "Los sismos frente a la costa se asignan a la región más cercana. "
-        "No incluye los sismos ocurridos en Argentina."
+        "Los sismos frente a la costa (hasta 200 km) se asignan a la región más cercana. "
+        "No incluye los sismos en el océano abierto ni en países vecinos."
     )
 
 # --- Mayores sismos ---
@@ -191,6 +191,7 @@ with st.container(border=True):
         tabla_mayores,
         hide_index=True,
         width="stretch",
+        height=480,
         column_config={
             "Detalle": st.column_config.LinkColumn("Detalle", display_text="Ver en USGS"),
         },

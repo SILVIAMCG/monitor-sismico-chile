@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 st.title("🌎 Monitor Sísmico de Chile")
-st.caption("Zona central de Chile · Datos del USGS, actualizados cada 3 horas")
+st.caption("Chile · Datos del USGS, actualizados cada 3 horas")
 
 paginas = [
     st.Page("paginas/monitor.py", title="Monitor", icon="🗺️", default=True),

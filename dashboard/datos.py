@@ -88,3 +88,8 @@ def mayores_sismos():
         """,
         ttl=TTL,
     )
+def estado_pipeline():
+    return conexion().query(
+        "select * from marts.mart_estado_pipeline",
+        ttl=300,
+    )

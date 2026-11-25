@@ -32,10 +32,14 @@ st.header("Sismos recientes")
 
 periodo = st.radio("Período", list(PERIODOS.keys()), index=2, horizontal=True)
 
+incluir_fuera = st.toggle("Incluir sismos en el océano y en países vecinos", value=False)
+
 df = sismos_recientes()
 df["event_time_utc"] = pd.to_datetime(df["event_time_utc"], utc=True)
 limite = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=PERIODOS[periodo])
 df = df[df["event_time_utc"] >= limite].copy()
+if not incluir_fuera:
+    df = df[df["ubicacion"].isin(["tierra", "mar"])]
 
 if df.empty:
     st.info("No se registraron sismos en la zona durante este período.")
@@ -70,7 +74,7 @@ capa = pdk.Layer(
     pickable=True,
 )
 
-vista = pdk.ViewState(latitude=-33.45, longitude=-70.66, zoom=5.5)
+vista = pdk.ViewState(latitude=-36.5, longitude=-71.0, zoom=3.6)
 
 tooltip = {
     "html": (
@@ -85,7 +89,7 @@ tooltip = {
 with st.container(border=True):
     st.pydeck_chart(
         pdk.Deck(layers=[capa], initial_view_state=vista, tooltip=tooltip, map_style=None),
-        height=520,
+        height=750,
     )
     st.markdown(leyenda_html(), unsafe_allow_html=True)
     st.caption("El tamaño y el color del círculo indican la magnitud.")
