@@ -14,7 +14,8 @@ PERIODOS = {
 UBICACIONES = {
     "tierra": "Tierra",
     "mar": "Frente a la costa",
-    "argentina": "Argentina",
+    "oceano": "Océano",
+    "extranjero": "Otro país",
 }
 
 

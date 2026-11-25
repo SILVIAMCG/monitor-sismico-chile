@@ -22,7 +22,7 @@ select
     s.longitude,
     s.place,
     s.ubicacion,
-    coalesce(r.nombre, 'Argentina')     as region,
+    coalesce(r.nombre, s.pais, 'Océano Pacífico')     as region,
     s.distancia_costa_km,
     s.usgs_url
 from sismos s

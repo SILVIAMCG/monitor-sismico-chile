@@ -9,14 +9,14 @@ models:
           - unique
           - not_null
       - name: ubicacion
-        description: "tierra, mar o argentina."
+        description: "tierra, mar (hasta 200 km de la costa), oceano o extranjero."
         data_tests:
           - not_null
           - accepted_values:
               arguments:
-                values: ['tierra', 'mar', 'argentina']
+                values: ['tierra', 'mar', 'oceano', 'extranjero']
       - name: region_id
-        description: "Región asignada. Vacía para sismos en Argentina."
+        description: "Región asignada. Vacía para sismos en el océano o en otro país."
         data_tests:
           - relationships:
               arguments:

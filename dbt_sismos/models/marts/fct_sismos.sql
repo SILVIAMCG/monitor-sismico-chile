@@ -53,19 +53,28 @@ select
 
     case
         when a.region_tierra is not null       then 'tierra'
-        when s.place ilike '%argentina%'       then 'argentina'
+        when s.place not ilike '%chile%'       then 'extranjero'
+        when a.distancia_region_km > 200       then 'oceano'
         else 'mar'
     end                                                        as ubicacion,
 
     case
         when a.region_tierra is not null       then a.region_tierra
-        when s.place ilike '%argentina%'       then null
+        when s.place not ilike '%chile%'       then null
+        when a.distancia_region_km > 200       then null
         else a.region_cercana
     end                                                        as region_id,
 
     case
+        when a.region_tierra is not null       then 'Chile'
+        when s.place not ilike '%chile%'       then trim(regexp_replace(s.place, '^.*,', ''))
+        when a.distancia_region_km > 200       then null
+        else 'Chile'
+    end                                                        as pais,
+
+    case
         when a.region_tierra is null
-         and s.place not ilike '%argentina%'   then round(a.distancia_region_km::numeric, 1)
+         and s.place ilike '%chile%'           then round(a.distancia_region_km::numeric, 1)
     end                                                        as distancia_costa_km,
 
     s.geom
